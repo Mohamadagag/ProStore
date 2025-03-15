@@ -3,7 +3,11 @@ import {PrismaAdapter} from '@auth/prisma-adapter'
 import {prisma} from '@/db/prisma'
 import CredentialsProvider from "next-auth/providers/credentials"
 import { compareSync } from 'bcrypt-ts-edge'
-import type { NextAuthConfig } from 'next-auth'
+import { cookies } from 'next/headers'
+
+// import type { NextAuthConfig } from 'next-auth'
+// import { NextResponse } from 'next/server'
+import { authConfig } from './auth.config'
 
 export const config = {
     pages:{
@@ -11,7 +15,7 @@ export const config = {
         error: '/sign-in',
     },
     session:{
-        strategy: 'jwt',
+        strategy: 'jwt' as const,
         maxAge: 30 * 24 * 60 *60, // 30 days
     },
     adapter: PrismaAdapter(prisma),
@@ -57,7 +61,6 @@ export const config = {
             session.user.role = token.role
             session.user.name = token.name
 
-            console.log(token)
             // if there is an update set the user name
             if(trigger === 'update'){
                 session.user.name = user.name
@@ -80,8 +83,24 @@ export const config = {
             }
 
             return token
-          }
+          },
+          ...authConfig.callbacks,
+        //   authorized({request, auth}: any){
+        //     if(!request.cookies.get('sessionCartId')){
+        //         const sessionCartId = crypto.randomUUID();
+        //         const newRequestHeaders = new Headers(request.headers)
+        //         const response = NextResponse.next({
+        //             request: {
+        //                 headers: newRequestHeaders
+        //             }
+        //         })
+        //         response.cookies.set('sessionCartId', sessionCartId)
+        //         return response
+        //     }else{
+        //         return true
+        //     }
+        //   }
     }
-} satisfies NextAuthConfig
+}
 
 export const {handlers, auth, signIn, signOut} = NextAuth(config)
