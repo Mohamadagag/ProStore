@@ -1,5 +1,5 @@
 import {z} from 'zod'
-import { InsertProductSchema, insertCartSchema, cartItemSchema, shippingAddressSchema } from '@/lib/validators';
+import {insertOrderItemSchema, insertOrderSchema, InsertProductSchema, insertCartSchema, cartItemSchema, shippingAddressSchema } from '@/lib/validators';
 
 export type Product = z.infer<typeof InsertProductSchema> & {
     id: string;
@@ -10,3 +10,14 @@ export type Product = z.infer<typeof InsertProductSchema> & {
 export type Cart = z.infer<typeof insertCartSchema>
 export type CartItem = z.infer<typeof cartItemSchema>
 export type ShippingAddress = z.infer<typeof shippingAddressSchema>
+export type OrderItem = z.infer<typeof insertOrderItemSchema>
+export type Order = z.infer<typeof insertOrderSchema> & {
+    id: string;
+    createdAt: Date;
+    isPaid: boolean;
+    paidAt: Date | null;
+    isDelivered: boolean;
+    deliveredAt: Date | null;
+    orderitems: OrderItem[];
+    user: {name: string, email: string};
+}
