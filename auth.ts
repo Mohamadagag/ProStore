@@ -106,6 +106,11 @@ export const config = {
                 }
             }
 
+            // handle session update
+            if(session?.user.name && trigger === 'update'){
+                token.name = session.user.name;
+            }
+
             return token
           },
           ...authConfig.callbacks,
