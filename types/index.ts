@@ -1,7 +1,7 @@
 import {z} from 'zod'
-import {insertOrderItemSchema, insertOrderSchema, InsertProductSchema, insertCartSchema, cartItemSchema, shippingAddressSchema, paymentResultSchema } from '@/lib/validators';
+import {insertOrderItemSchema, insertOrderSchema, insertProductSchema, insertCartSchema, cartItemSchema, shippingAddressSchema, paymentResultSchema } from '@/lib/validators';
 
-export type Product = z.infer<typeof InsertProductSchema> & {
+export type Product = z.infer<typeof insertProductSchema> & {
     id: string;
     rating: string;
     createdAt: Date;
