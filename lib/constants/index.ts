@@ -51,3 +51,9 @@ export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
   }
 
   export const USER_ROLES = process.env.USER_ROLES ? process.env.USER_ROLES.split(", ") : ['user', 'admin'];
+
+  export const ReviewFormDefaultValues = {
+    title:"",
+    comment:"",
+    rating:0,
+  }
